@@ -1,0 +1,26 @@
+{
+  "name": "flask-against-humanity",
+  "version": "0.0.1",
+  "description": "A Cards Against Humanity clone using Flask and Polymer",
+  "main": "runserver.py",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "browser-sync": "^2.7.6",
+    "gulp": "^3.9.0",
+    "gulp-shell": "^0.4.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Deathnerd/flask-against-humanity"
+  },
+  "author": "Wes Gilleland",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Deathnerd/flask-against-humanity/issues"
+  },
+  "homepage": "https://github.com/Deathnerd/flask-against-humanity"
+}
