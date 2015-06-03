@@ -1,30 +1,87 @@
-{% from "global-vars.html" import site_name, site_twitter_account %}
+{% from "global-vars.html" import site_name, site_twitter_account, site_author %}
 {% from "macros.html" import flash_messages %}
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
-<head>
-    <title>{{ site_name }}</title>
-    <!-- Meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">    
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    {% block styles %}
-    {% endblock %}
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head> 
+    <head>
+        <title>{{ site_name }}</title>
+        <!-- Meta -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="{{ site_author }}">
 
-<body>
-{% block content %}{% endblock %}
-</body>
-{% block javascripts %}{% endblock %}
+        {# Load all stylesheets in the head before loading any javascript #}
+        <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}"/>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+        {# Main stylesheet #}
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/styles/main.css') }}"/>
+        {% block styles %}
+        {% endblock %}
+
+        {# Javascripts to run before the body is loaded #}
+        <script src="{{ url_for('static', filename='assets/components/webcomponentsjs/webcomponents-lite.js') }}"></script>
+        {% block head_javascripts %}{% endblock %}
+
+        {# Imports for Polymer go here #}
+        {% block head_imports %}
+            <link rel="import"
+                  href="{{ url_for('static', filename='assets/components/iron-icons/iron-icons.html') }}"/>
+            <link rel="import" href="{{ url_for('static', filename='assets/components/paper-drawer-panel/paper-drawer-panel.html') }}"/>
+            <link rel="import" href="{{ url_for('static', filename='assets/components/paper-header-panel/paper-header-panel.html') }}"/>
+            <link rel="import" href="{{ url_for('static', filename='assets/components/paper-icon-button/paper-icon-button.html') }}"/>
+            <link rel="import" href="{{ url_for('static', filename='assets/components/paper-toolbar/paper-toolbar.html') }}"/>
+            <link rel="import" href="{{ url_for('static', filename='assets/components/paper-menu/paper-menu.html') }}"/>
+            <link rel="import" href="{{ url_for('static', filename='assets/components/paper-item/paper-item.html') }}"/>
+        {% endblock %}
+    </head>
+
+    <body unresolved class="fullbleed layout vertical">
+        {# Main Content #}
+        {# Start Polymer App #}
+        <dom-module id="humanity-app">
+            <link rel="import" href="{{ url_for('static', filename='assets/styles/humanity-app.css') }}"/>
+
+            <template>
+
+                <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
+
+                    <div class="nav" drawer>
+                        <paper-menu>
+                            <paper-item>Item01</paper-item>
+                            <paper-item>Item02</paper-item>
+                            <paper-item>Item03</paper-item>
+                            <paper-item>Item04</paper-item>
+                            <paper-item>Item05</paper-item>
+                        </paper-menu>
+                    </div>
+
+                    <paper-header-panel class="main" main mode="waterfall">
+                        {# Main toolbar #}
+                        <paper-toolbar>
+                            <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                        </paper-toolbar>
+                        <div class="content">
+                            <content select="c"></content>
+                        </div>
+                    </paper-header-panel>
+
+                </paper-drawer-panel>
+
+            </template>
+
+            <script>
+                Polymer({
+                    is: 'humanity-app'
+                })
+            </script>
+        </dom-module>
+
+        <humanity-app>
+            <c>Content here!</c>
+        </humanity-app>
+    </body>
+    {# Javascripts run here will be aware of everything on the page #}
+    {% block end_javascripts %}{% endblock %}
 </html>
 
