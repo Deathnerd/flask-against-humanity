@@ -1,0 +1,27 @@
+{
+  "name": "flask-against-humanity",
+  "version": "0.0.1",
+  "authors": [
+    "Wes Gilleland <wes.gilleland@gmail.com>"
+  ],
+  "description": "A Cards Against Humanity clone using Flask and Polymer",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "core-scaffold": "Polymer/core-scaffold#~0.5.6",
+    "core-item": "Polymer/core-item#~0.5.6",
+    "paper-input": "Polymer/paper-input#~0.5.6",
+    "paper-fab": "Polymer/paper-fab#~0.5.6"
+  },
+  "resolutions": {
+    "polymer": "^1.0.0",
+    "webcomponentsjs": "^0.7.2"
+  }
+}
