@@ -7,10 +7,15 @@ var browserSync = require('browser-sync').create();
 // start the browserSync instance
 gulp.task('browserSync', function(){
     browserSync.init({
-        proxy: "127.0.0.1:5000",
+    	server: {
+    		baseDir: "."
+    	},
         files: [
-            "humanity/templates/**",
-            "static/assets/**"
+            "images/**",
+            "scripts/**",
+            "elements/**",
+            "index.html",
+            "styles/**"
         ]
     })
 });
