@@ -27,7 +27,7 @@ class Base():
     ASSETS_DEBUG = False
 
     # WTForms
-    WTF_CSRF_ENABLED = True
+    WTF_CSRF_ENABLED = False
     WTF_CSRF_SECRET_KEY = os.environ.get('HUMANITY_WTF_CSRF_SECRET_KEY', 'wtfthisissecret')
     RECAPTCHA_PUBLIC_KEY = os.environ.get('HUMANITY_RECAPTCHA_PUBLIC_KEY', 'thisispublic')
     RECAPTCHA_PRIVATE_KEY = os.environ.get('HUMANITY_RECAPTCHA_PRIVATE_KEY', 'thisisprivate')

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, render_template, g, redirect, url_for, request, flash
+from flask import Blueprint, render_template, g, redirect, url_for, request, flash, jsonify
 from flask.ext.login import login_user, logout_user, login_required
 from .forms import RegisterForm, LoginForm
 from ..models import User
@@ -22,7 +22,7 @@ def index():
     """
     The public home page. Make it purty and awesome!
     """
-    return render_template('public/index.html')
+    return jsonify({"redirect": "home"})
 
 
 @blueprint.route('/login', methods=["GET", "POST"])
@@ -32,24 +32,15 @@ def login():
     :return:
     """
     # If the user is logged in, then boot them to their account
-    if g.user and not g.user.is_anonymous():
-        return redirect(url_for('humanity_user.profile', user_name=g.user.username))
-    form = LoginForm(request.form)
-    # Handle the login
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            login_user(form.user, remember=form.remember_me.data)
-            flash("You have successfully logged in. Huzzah!", 'success')
-            redirect_url = request.args.get("next") or url_for("humanity_user.manage_user_account",
-                                                               user_name=form.user.username)
-            return redirect(redirect_url)
-        else:
-            flash_errors(form)
-    return render_template('public/login.html', form=form)
+
+    return jsonify({
+        "errors":{},
+        "success": True,
+        "user": g.user
+    })
 
 
 @blueprint.route('/logout')
-@login_required
 def logout():
     """
     Handles logout logic
@@ -65,14 +56,22 @@ def register():
     Handles the register logic as well as displaying the form
     :return:
     """
-    form = RegisterForm(request.form, csrf_enabled=False)
-    if form.validate_on_submit():
-        new_user = User.create(username=form.username.data,
-                               password=form.password.data,
-                               gender=form.gender.data,
-                               active=True)
-        flash('Thank you for registering. You can now log in!', "success")
-        return redirect(url_for('public.index'))
-    else:
-        flash_errors(form)
-    return render_template('public/register.html', form=form)
+    register_form = RegisterForm()  # We're only getting stuff from JSON now
+    if not register_form.validate():
+        return jsonify({
+            "errors": register_form.errors.items(),
+            "success": False,
+            "user": None,
+            "sent_json": request.json
+        })
+
+    user = User.create(username=request.json['username'], password=request.json['password'])
+
+    g.user = user
+
+    return jsonify({
+        "errors": [],
+        "success": True,
+        "user": g.user.username,
+        "sent_json": request.json
+    })

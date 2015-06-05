@@ -1,9 +1,52 @@
-{% extends "layout.html" %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+    <label>
+        <input name="username" type="text" placeholder="Username"/>
+    </label>
+    <br/>
+    <label>
+        <input name="password" type="text" placeholder="Password"/>
+    </label>
+    <br/>
+    <label>
+        <input name="confirm" type="text" placeholder="Confirm"/>
+    </label>
+    <br/>
+    <label>
+        <select name="gender" id="gender_select">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+    </label>
+    <br/>
+    <button onclick="test()">CLICKY!</button>
+</body>
+<script>
+    var test = function(){
+        var vals = {};
+        var things = $('select, input');
+        for(var i = 0; i < things.length; i++){
+            var $thing = $(things[i]);
 
-{% block title %}
-    Logout
-{% endblock %}
-
-{% block body %}
-    Here's the logout page
-{% endblock %}
+            vals[$thing.attr('name')] = $thing.val();
+        }
+        console.log(vals);
+        $.ajax({
+            type: 'POST',
+            url: '{{ url_for('public.register') }}',
+            dataType: 'json',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify(vals),
+            success: function(thing){
+                console.log(thing);
+            }
+        })
+    }
+</script>
+</html>

@@ -19,7 +19,7 @@ class RegisterForm(Form):
         Performs registration validation. Checks for duplicate user and email as well as required fields
         :return:
         """
-        initial_validation = super(RegisterForm, self).validate()
+        initial_validation = super(RegisterForm, self).validate() and self.password != self.confirm
         if not initial_validation:
             return False
         user = User.query.filter_by(username=self.username.data).first()

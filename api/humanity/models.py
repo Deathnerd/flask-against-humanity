@@ -13,8 +13,8 @@ class User(db.Model, UserMixin, CRUDMixin, SurrogatePK):
     admin = db.Column(db.Boolean, default=False)
     active = db.Column(db.Boolean, default=True)
 
-    def __init__(self, username, email, password=None, **kwargs):
-        db.Model.__init__(self, username=username, email=email, **kwargs)
+    def __init__(self, username, password=None, **kwargs):
+        db.Model.__init__(self, username=username, **kwargs)
         if password:
             self.set_password(password)
         else:
